@@ -60,8 +60,9 @@ public class InsertDialog extends javax.swing.JDialog {
         btnAdd = new javax.swing.JButton();
         btnClear = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
-        btnImage = new javax.swing.JButton();
+        btnSelectImage = new javax.swing.JButton();
         txtImage = new javax.swing.JTextField();
+        btnClearImage = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Add opus");
@@ -88,6 +89,7 @@ public class InsertDialog extends javax.swing.JDialog {
         btnAdd.setBackground(new java.awt.Color(0, 51, 255));
         btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/spdvi/icons/iloveimg-resized/plus-button.png"))); // NOI18N
         btnAdd.setText("Add");
+        btnAdd.setFocusable(false);
         btnAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAddActionPerformed(evt);
@@ -110,11 +112,21 @@ public class InsertDialog extends javax.swing.JDialog {
             }
         });
 
-        btnImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/spdvi/icons/iloveimg-resized/gallery.png"))); // NOI18N
-        btnImage.setText("Select image");
-        btnImage.addActionListener(new java.awt.event.ActionListener() {
+        btnSelectImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/spdvi/icons/iloveimg-resized/gallery.png"))); // NOI18N
+        btnSelectImage.setText("Select image");
+        btnSelectImage.setFocusable(false);
+        btnSelectImage.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnImageActionPerformed(evt);
+                btnSelectImageActionPerformed(evt);
+            }
+        });
+
+        btnClearImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/spdvi/icons/iloveimg-resized/close.png"))); // NOI18N
+        btnClearImage.setText("Clear image");
+        btnClearImage.setFocusable(false);
+        btnClearImage.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClearImageActionPerformed(evt);
             }
         });
 
@@ -145,14 +157,16 @@ public class InsertDialog extends javax.swing.JDialog {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtAuthor)
                             .addComponent(txtTitle)))
-                    .addGroup(layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(btnAdd)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnClear)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnCancel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
-                        .addComponent(btnImage)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnClearImage, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnSelectImage, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(txtImage, javax.swing.GroupLayout.DEFAULT_SIZE, 233, Short.MAX_VALUE)
@@ -181,14 +195,16 @@ public class InsertDialog extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtAuthor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblAuthor)))
-                    .addComponent(lblImage, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(lblAuthor))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                        .addComponent(btnClearImage))
+                    .addComponent(lblImage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAdd)
                     .addComponent(btnClear)
                     .addComponent(btnCancel)
-                    .addComponent(btnImage)
+                    .addComponent(btnSelectImage)
                     .addComponent(txtImage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
@@ -208,9 +224,14 @@ public class InsertDialog extends javax.swing.JDialog {
         this.dispose();
     }//GEN-LAST:event_btnCancelActionPerformed
 
-    private void btnImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImageActionPerformed
+    private void btnSelectImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelectImageActionPerformed
         selectImage();
-    }//GEN-LAST:event_btnImageActionPerformed
+    }//GEN-LAST:event_btnSelectImageActionPerformed
+
+    private void btnClearImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearImageActionPerformed
+        loadDefaultImage();
+        txtImage.setText("");
+    }//GEN-LAST:event_btnClearImageActionPerformed
 
     /**
      * @param args the command line arguments
@@ -253,7 +274,8 @@ public class InsertDialog extends javax.swing.JDialog {
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnClear;
-    private javax.swing.JButton btnImage;
+    private javax.swing.JButton btnClearImage;
+    private javax.swing.JButton btnSelectImage;
     private javax.swing.JLabel lblAuthor;
     private javax.swing.JLabel lblFormat;
     private javax.swing.JLabel lblImage;
@@ -276,8 +298,7 @@ public class InsertDialog extends javax.swing.JDialog {
             imageName = "noImage";
         }
 
-        Opus o = new Opus(txtRegisterNum.getText(), txtTitle.getText(), Integer.parseInt(txtYear.getText()), txtFormat.getText(), txtAuthor.getText(), imageName);
-        mf.getObras().add(o);
+        mf.getObras().add(new Opus(txtRegisterNum.getText(), txtTitle.getText(), Integer.parseInt(txtYear.getText()), txtFormat.getText(), txtAuthor.getText(), imageName));
     }
 
     private void clear() {

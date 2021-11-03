@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.JList;
 import javax.swing.UIManager;
 
 /**
@@ -26,6 +27,7 @@ public class MainFrame extends javax.swing.JFrame {
     private final String OPUS_DIR = System.getProperty("user.home") + "\\AppData\\Local\\OpusList\\data\\";
     private final String IMAGE_DIR = System.getProperty("user.home") + "\\AppData\\Local\\OpusList\\images\\";
     private ArrayList<Opus> obras;
+    private JList<Opus> lstOpusList;
 
     /**
      * Creates new form MainFrame
@@ -52,8 +54,7 @@ public class MainFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        lstOpusList = new javax.swing.JList<>();
+        scrListPanel = new javax.swing.JScrollPane();
         mnuMenu = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         mniCreate = new javax.swing.JMenuItem();
@@ -64,13 +65,6 @@ public class MainFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Opus List");
-
-        lstOpusList.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane1.setViewportView(lstOpusList);
 
         jMenu1.setText("File");
 
@@ -126,14 +120,14 @@ public class MainFrame extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 588, Short.MAX_VALUE)
+                .addComponent(scrListPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 588, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 365, Short.MAX_VALUE)
+                .addComponent(scrListPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 365, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -189,17 +183,18 @@ public class MainFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JList<String> lstOpusList;
     private javax.swing.JMenuItem mniCreate;
     private javax.swing.JMenuItem mniDelete;
     private javax.swing.JMenuItem mniRead;
     private javax.swing.JMenuItem mniUpdate;
     private javax.swing.JMenuBar mnuMenu;
+    private javax.swing.JScrollPane scrListPanel;
     // End of variables declaration//GEN-END:variables
 
     private void initiation() {
         setLocationRelativeTo(null);
+        lstOpusList = new JList<>();
+        scrListPanel.setViewportView(lstOpusList);
         checkDirectory();
         loadOpusFile();
     }
@@ -208,6 +203,7 @@ public class MainFrame extends javax.swing.JFrame {
         InsertDialog id = new InsertDialog(this, true);
         id.setVisible(true);
         loadOpusList();
+        System.out.println(obras);
     }
 
     private void read() {
@@ -256,11 +252,11 @@ public class MainFrame extends javax.swing.JFrame {
         }
     }
 
-    private void loadOpusList() {
+    public void loadOpusList() {
         DefaultListModel dlm = new DefaultListModel();
         if (obras != null) {
             for (Opus o : obras) {
-                dlm.addElement(o.toString());
+                dlm.addElement(o);
             }
         }
         lstOpusList.setModel(dlm);
