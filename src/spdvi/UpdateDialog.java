@@ -9,6 +9,8 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.UIManager;
 
 /**
@@ -17,11 +19,12 @@ import javax.swing.UIManager;
  */
 public class UpdateDialog extends javax.swing.JDialog {
 
-    MainFrame mf = new MainFrame();
+    MainFrame mf = (MainFrame) this.getParent();
     JFileChooser fileChooser;
     boolean hasImage = false;
     private final String IMAGE_DIR = System.getProperty("user.home") + "\\AppData\\Local\\OpusList\\images\\";
     private String imageName;
+    private int selectedOpus;
 
     /**
      * Creates new form InsertDialog
@@ -31,6 +34,10 @@ public class UpdateDialog extends javax.swing.JDialog {
         initComponents();
         setLocationRelativeTo(null);
         loadDefaultImage();
+    }
+
+    public JTextField getTxtRegisterNum() {
+        return txtRegisterNum;
     }
 
     /**
@@ -62,7 +69,6 @@ public class UpdateDialog extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Update opus");
-        setAlwaysOnTop(true);
         setModal(true);
 
         lblRegisterNum.setText("Register number: ");
@@ -300,6 +306,7 @@ public class UpdateDialog extends javax.swing.JDialog {
         String opusRegister = txtRegisterNum.getText();
         for (Opus o : mf.getObras()) {
             if (opusRegister.equals(o.getRegistre())) {
+                selectedOpus = mf.getObras().indexOf(o);
                 enableUpdate(true);
                 txtAuthor.setText(o.getAutor());
                 txtFormat.setText(o.getFormat());
@@ -316,7 +323,7 @@ public class UpdateDialog extends javax.swing.JDialog {
             }
         }
     }
-    
+
     private void enableUpdate(boolean state) {
         txtAuthor.setEnabled(state);
         txtFormat.setEnabled(state);
@@ -328,7 +335,20 @@ public class UpdateDialog extends javax.swing.JDialog {
     }
 
     private void update() {
-        
+        if (confirmation("Are you sure you want to update the selected opus?")) {
+            mf.getObras().get(selectedOpus).setAny(Integer.parseInt(txtYear.getText()));
+            mf.getObras().get(selectedOpus).setAutor(txtAuthor.getText());
+            mf.getObras().get(selectedOpus).setFormat(txtFormat.getText());
+            if (hasImage) {
+                imageName = mf.getObras().get(selectedOpus).getRegistre() + ".jpg";
+                copyImage();
+            } else {
+                imageName = "noImage";
+            }
+            mf.getObras().get(selectedOpus).setImagePath(imageName);
+            mf.getObras().get(selectedOpus).setTitol(txtTitle.getText());
+            mf.changesMade = true;
+        }
     }
 
     private void selectImage() {
@@ -386,5 +406,26 @@ public class UpdateDialog extends javax.swing.JDialog {
         } catch (IOException ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    private boolean confirmation(String msg) {
+        Object[] options = {"Yes",
+            "No, cancel"};
+        int n = JOptionPane.showOptionDialog(null,
+                msg,
+                "Warning",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                options,
+                options[1]);
+        return n == 0;
+    }
+
+    private void errorDialog(String message) {
+        JOptionPane.showMessageDialog(null,
+                message,
+                "Something went wrong...",
+                JOptionPane.ERROR_MESSAGE);
     }
 }

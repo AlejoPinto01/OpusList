@@ -9,6 +9,7 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
 /**
@@ -16,8 +17,8 @@ import javax.swing.UIManager;
  * @author Alejo
  */
 public class InsertDialog extends javax.swing.JDialog {
-
-    MainFrame mf = new MainFrame();
+    
+    MainFrame mf = (MainFrame) this.getParent();
     JFileChooser fileChooser;
     boolean hasImage = false;
     private final String IMAGE_DIR = System.getProperty("user.home") + "\\AppData\\Local\\OpusList\\images\\";
@@ -31,7 +32,7 @@ public class InsertDialog extends javax.swing.JDialog {
         initComponents();
         initiation();
     }
-
+    
     private void initiation() {
         setLocationRelativeTo(null);
         loadDefaultImage();
@@ -291,16 +292,22 @@ public class InsertDialog extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
 
     private void addOpus() {
-        if (hasImage) {
-            imageName = txtRegisterNum.getText() + ".jpg";
-            copyImage();
+        if (!txtRegisterNum.getText().isBlank() || !txtRegisterNum.getText().isEmpty()) {
+            if (hasImage) {
+                imageName = txtRegisterNum.getText() + ".jpg";
+                copyImage();
+            } else {
+                imageName = "noImage";
+            }
+            
+            mf.getObras().add(new Opus(txtRegisterNum.getText(), txtTitle.getText(), Integer.parseInt(txtYear.getText()), txtFormat.getText(), txtAuthor.getText(), imageName));
+            JOptionPane.showMessageDialog(null, "Added new opus");
+            mf.changesMade = true;
         } else {
-            imageName = "noImage";
+            errorDialog("Missing register number");
         }
-
-        mf.getObras().add(new Opus(txtRegisterNum.getText(), txtTitle.getText(), Integer.parseInt(txtYear.getText()), txtFormat.getText(), txtAuthor.getText(), imageName));
     }
-
+    
     private void clear() {
         txtAuthor.setText("");
         txtFormat.setText("");
@@ -310,7 +317,7 @@ public class InsertDialog extends javax.swing.JDialog {
         txtYear.setText("");
         loadDefaultImage();
     }
-
+    
     private void selectImage() {
         fileChooser = new JFileChooser();
         int returnOption = fileChooser.showOpenDialog(this);
@@ -320,7 +327,7 @@ public class InsertDialog extends javax.swing.JDialog {
             hasImage = true;
         }
     }
-
+    
     private void loadImage(String path) {
         try {
             BufferedImage bufferedImage = ImageIO.read(new File(path));
@@ -329,7 +336,7 @@ public class InsertDialog extends javax.swing.JDialog {
         } catch (IOException ex) {
         }
     }
-
+    
     private ImageIcon resizeImageIcon(BufferedImage originalImage, int desiredWidth, int desiredHeight) {
         int newHeight = 0;
         int newWidth = 0;
@@ -347,12 +354,12 @@ public class InsertDialog extends javax.swing.JDialog {
         ImageIcon imageIcon = new ImageIcon(outputImage);
         return imageIcon;
     }
-
+    
     private void loadDefaultImage() {
         loadImage("src/spdvi/icons/noimage.png");
         hasImage = false;
     }
-
+    
     private void copyImage() {
         try {
             if (fileChooser.getSelectedFile() != null) {
@@ -367,5 +374,12 @@ public class InsertDialog extends javax.swing.JDialog {
         } catch (IOException ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    private void errorDialog(String message) {
+        JOptionPane.showMessageDialog(null,
+                message,
+                "Something went wrong...",
+                JOptionPane.ERROR_MESSAGE);
     }
 }

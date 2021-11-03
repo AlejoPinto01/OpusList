@@ -1,8 +1,9 @@
 package spdvi;
 
+import java.io.File;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListModel;
 import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
 /**
@@ -11,8 +12,10 @@ import javax.swing.UIManager;
  */
 public class DeleteDialog extends javax.swing.JDialog {
 
-    MainFrame mf = new MainFrame();
+    MainFrame mf = (MainFrame) this.getParent();
     JComboBox cmbObras;
+    private final String IMAGE_DIR = System.getProperty("user.home") + "\\AppData\\Local\\OpusList\\images\\";
+
     /**
      * Creates new form InsertDialog
      */
@@ -21,7 +24,7 @@ public class DeleteDialog extends javax.swing.JDialog {
         initComponents();
         initiation();
     }
-    
+
     private void initiation() {
         setLocationRelativeTo(null);
         cmbObras = new JComboBox<Opus>();
@@ -143,8 +146,16 @@ public class DeleteDialog extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
 
     private void delete() {
-        Opus o = (Opus) cmbObras.getSelectedItem();
-        mf.getObras().remove(o);
+        if (confirmation("Are you sure you want to delete the selected opus?")) {
+            Opus o = (Opus) cmbObras.getSelectedItem();
+            mf.getObras().remove(o);
+            if (!o.getImagePath().equals("noImage")) {
+                File image = new File(IMAGE_DIR + o.getImagePath());
+                image.delete();
+            }
+            loadOpusList();
+            mf.changesMade = true;
+        }
     }
 
     private void loadOpusList() {
@@ -155,5 +166,19 @@ public class DeleteDialog extends javax.swing.JDialog {
             }
         }
         cmbObras.setModel(dcbm);
+    }
+
+    private boolean confirmation(String msg) {
+        Object[] options = {"Yes",
+            "No, cancel"};
+        int n = JOptionPane.showOptionDialog(null,
+                msg,
+                "Warning",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                options,
+                options[1]);
+        return n == 0;
     }
 }

@@ -3,9 +3,13 @@ package spdvi;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
+import java.awt.Desktop;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
 /**
@@ -26,8 +31,9 @@ public class MainFrame extends javax.swing.JFrame {
     private final String OPUS_FILE = "obres.json";
     private final String OPUS_DIR = System.getProperty("user.home") + "\\AppData\\Local\\OpusList\\data\\";
     private final String IMAGE_DIR = System.getProperty("user.home") + "\\AppData\\Local\\OpusList\\images\\";
-    private ArrayList<Opus> obras;
+    private static ArrayList<Opus> obras;
     private JList<Opus> lstOpusList;
+    public boolean changesMade = false;
 
     /**
      * Creates new form MainFrame
@@ -57,16 +63,55 @@ public class MainFrame extends javax.swing.JFrame {
         scrListPanel = new javax.swing.JScrollPane();
         mnuMenu = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
+        mniSave = new javax.swing.JMenuItem();
+        mniSaveAs = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
         mniCreate = new javax.swing.JMenuItem();
-        mniRead = new javax.swing.JMenuItem();
         mniUpdate = new javax.swing.JMenuItem();
         mniDelete = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Opus List");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jMenu1.setText("File");
+
+        mniSave.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        mniSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/spdvi/icons/iloveimg-resized/diskette.png"))); // NOI18N
+        mniSave.setText("Save");
+        mniSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mniSaveActionPerformed(evt);
+            }
+        });
+        jMenu1.add(mniSave);
+
+        mniSaveAs.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.SHIFT_DOWN_MASK | java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        mniSaveAs.setIcon(new javax.swing.ImageIcon(getClass().getResource("/spdvi/icons/iloveimg-resized/edit.png"))); // NOI18N
+        mniSaveAs.setText("Save as...");
+        jMenu1.add(mniSaveAs);
+
+        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_ENTER, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/spdvi/icons/iloveimg-resized/folder.png"))); // NOI18N
+        jMenuItem1.setText("Open data folder");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem1);
+
+        mnuMenu.add(jMenu1);
+
+        jMenu2.setText("Edit");
 
         mniCreate.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.SHIFT_DOWN_MASK));
         mniCreate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/spdvi/icons/iloveimg-resized/plus-button.png"))); // NOI18N
@@ -76,16 +121,7 @@ public class MainFrame extends javax.swing.JFrame {
                 mniCreateActionPerformed(evt);
             }
         });
-        jMenu1.add(mniCreate);
-
-        mniRead.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.SHIFT_DOWN_MASK));
-        mniRead.setText("View opus");
-        mniRead.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mniReadActionPerformed(evt);
-            }
-        });
-        jMenu1.add(mniRead);
+        jMenu2.add(mniCreate);
 
         mniUpdate.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.SHIFT_DOWN_MASK));
         mniUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/spdvi/icons/iloveimg-resized/edit.png"))); // NOI18N
@@ -95,7 +131,7 @@ public class MainFrame extends javax.swing.JFrame {
                 mniUpdateActionPerformed(evt);
             }
         });
-        jMenu1.add(mniUpdate);
+        jMenu2.add(mniUpdate);
 
         mniDelete.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.SHIFT_DOWN_MASK));
         mniDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/spdvi/icons/iloveimg-resized/trash-bin.png"))); // NOI18N
@@ -105,11 +141,8 @@ public class MainFrame extends javax.swing.JFrame {
                 mniDeleteActionPerformed(evt);
             }
         });
-        jMenu1.add(mniDelete);
+        jMenu2.add(mniDelete);
 
-        mnuMenu.add(jMenu1);
-
-        jMenu2.setText("Edit");
         mnuMenu.add(jMenu2);
 
         setJMenuBar(mnuMenu);
@@ -138,10 +171,6 @@ public class MainFrame extends javax.swing.JFrame {
         create();
     }//GEN-LAST:event_mniCreateActionPerformed
 
-    private void mniReadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniReadActionPerformed
-        read();
-    }//GEN-LAST:event_mniReadActionPerformed
-
     private void mniUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniUpdateActionPerformed
         update();
     }//GEN-LAST:event_mniUpdateActionPerformed
@@ -149,6 +178,47 @@ public class MainFrame extends javax.swing.JFrame {
     private void mniDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniDeleteActionPerformed
         delete();
     }//GEN-LAST:event_mniDeleteActionPerformed
+
+    private void mniSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniSaveActionPerformed
+        save();
+    }//GEN-LAST:event_mniSaveActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        try {
+            Desktop.getDesktop().open(new File(OPUS_DIR));
+        } catch (IOException ex) {
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        if (changesMade) {
+            Object[] options = {"Yes",
+                "No", "Cancel"};
+            int n = JOptionPane.showOptionDialog(this,
+                    "Changes were made." + " Do you want to save?",
+                    "Warning",
+                    JOptionPane.YES_NO_CANCEL_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    options,
+                    options[1]);
+            switch (n) {
+                case 0 -> {
+                    saveExit();
+                    this.dispose();
+                }
+                case 1 ->
+                    this.dispose();
+            }
+        } else {
+            this.dispose();
+        }
+    }//GEN-LAST:event_formWindowClosing
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_formWindowClosed
 
     /**
      * @param args the command line arguments
@@ -183,9 +253,11 @@ public class MainFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem mniCreate;
     private javax.swing.JMenuItem mniDelete;
-    private javax.swing.JMenuItem mniRead;
+    private javax.swing.JMenuItem mniSave;
+    private javax.swing.JMenuItem mniSaveAs;
     private javax.swing.JMenuItem mniUpdate;
     private javax.swing.JMenuBar mnuMenu;
     private javax.swing.JScrollPane scrListPanel;
@@ -197,27 +269,39 @@ public class MainFrame extends javax.swing.JFrame {
         scrListPanel.setViewportView(lstOpusList);
         checkDirectory();
         loadOpusFile();
+        lstOpusList.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent evt) {
+                if (evt.getClickCount() == 2) {
+                    doubleClick();
+                }
+            }
+        });
     }
-    
+
     private void create() {
         InsertDialog id = new InsertDialog(this, true);
         id.setVisible(true);
         loadOpusList();
-        System.out.println(obras);
-    }
-
-    private void read() {
-
     }
 
     private void update() {
         UpdateDialog ud = new UpdateDialog(this, true);
         ud.setVisible(true);
+        loadOpusList();
+    }
+    
+    private void doubleClick() {
+        UpdateDialog ud = new UpdateDialog(this, true);
+        ud.setVisible(true);
+        loadOpusList();
+        ud.getTxtRegisterNum().setText("Hola");
     }
 
     private void delete() {
         DeleteDialog dd = new DeleteDialog(this, true);
         dd.setVisible(true);
+        loadOpusList();
     }
 
     private void checkDirectory() {
@@ -225,7 +309,7 @@ public class MainFrame extends javax.swing.JFrame {
         if (!opusDir.exists()) {
             opusDir.mkdirs();
         }
-        
+
         File imageDir = new File(IMAGE_DIR);
         if (!imageDir.exists()) {
             imageDir.mkdirs();
@@ -260,5 +344,47 @@ public class MainFrame extends javax.swing.JFrame {
             }
         }
         lstOpusList.setModel(dlm);
+    }
+
+    private void save() {
+        if (confirmation("Are you sure you want to save?")) {
+            Gson gson = new Gson();
+            try (FileWriter fw = new FileWriter(new File(OPUS_DIR + OPUS_FILE))) {
+                fw.write(gson.toJson(obras));
+                JOptionPane.showMessageDialog(this, "Saved opus to " + OPUS_FILE);
+            } catch (IOException ex) {
+                Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+    
+    private void saveExit() {
+        Gson gson = new Gson();
+        try (FileWriter fw = new FileWriter(new File(OPUS_DIR + OPUS_FILE))) {
+                fw.write(gson.toJson(obras));
+            } catch (IOException ex) {
+                Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+    }
+
+    private boolean confirmation(String msg) {
+        Object[] options = {"Yes",
+            "No, cancel"};
+        int n = JOptionPane.showOptionDialog(null,
+                msg,
+                "Warning",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                options,
+                options[1]);
+        return n == 0;
+    }
+
+    private void errorDialog(String message) {
+        JOptionPane.showMessageDialog(null,
+                message,
+                "Something went wrong...",
+                JOptionPane.ERROR_MESSAGE);
     }
 }
