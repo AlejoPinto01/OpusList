@@ -1,6 +1,5 @@
 package spdvi;
 
-import java.io.File;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
@@ -22,8 +21,8 @@ public class DeleteDialog extends javax.swing.JDialog {
     public DeleteDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        initiation();
         mf = (MainFrame) this.getParent();
+        initiation();
     }
 
     private void initiation() {
