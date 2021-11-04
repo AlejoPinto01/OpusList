@@ -146,14 +146,18 @@ public class DeleteDialog extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
 
     private void delete() {
-        if (confirmation("Are you sure you want to delete the selected opus?")) {
-            Opus o = (Opus) cmbObras.getSelectedItem();
-            mf.getObras().remove(o);
-            if (!o.getImagePath().equals("noImage")) {
-                mf.imagesToDelete.add(IMAGE_DIR + o.getImagePath());
+        Opus o = (Opus) cmbObras.getSelectedItem();
+        if (o == null) {
+            errorDialog("No more opus to delete");
+        } else {
+            if (confirmation("Are you sure you want to delete the selected opus?")) {
+                mf.getObras().remove(o);
+                if (!o.getImagePath().equals("noImage")) {
+                    mf.imagesToDelete.add(IMAGE_DIR + o.getImagePath());
+                }
+                loadOpusList();
+                mf.changesMade = true;
             }
-            loadOpusList();
-            mf.changesMade = true;
         }
     }
 
@@ -179,5 +183,12 @@ public class DeleteDialog extends javax.swing.JDialog {
                 options,
                 options[1]);
         return n == 0;
+    }
+
+    private void errorDialog(String message) {
+        JOptionPane.showMessageDialog(null,
+                message,
+                "Something went wrong...",
+                JOptionPane.ERROR_MESSAGE);
     }
 }
