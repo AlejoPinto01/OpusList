@@ -34,6 +34,8 @@ public class MainFrame extends javax.swing.JFrame {
     private static ArrayList<Opus> obras;
     private JList<Opus> lstOpusList;
     public boolean changesMade = false;
+    public boolean doubleClicked = false;
+    public ArrayList<String> imagesToDelete = new ArrayList<>();
 
     /**
      * Creates new form MainFrame
@@ -47,8 +49,8 @@ public class MainFrame extends javax.swing.JFrame {
         return obras;
     }
 
-    public void setObras(ArrayList<Opus> obras) {
-        this.obras = obras;
+    public JList<Opus> getLstOpusList() {
+        return lstOpusList;
     }
 
     /**
@@ -290,12 +292,13 @@ public class MainFrame extends javax.swing.JFrame {
         ud.setVisible(true);
         loadOpusList();
     }
-    
+
     private void doubleClick() {
+        doubleClicked = true;
         UpdateDialog ud = new UpdateDialog(this, true);
         ud.setVisible(true);
+        doubleClicked = false;
         loadOpusList();
-        ud.getTxtRegisterNum().setText("Hola");
     }
 
     private void delete() {
@@ -351,20 +354,30 @@ public class MainFrame extends javax.swing.JFrame {
             Gson gson = new Gson();
             try (FileWriter fw = new FileWriter(new File(OPUS_DIR + OPUS_FILE))) {
                 fw.write(gson.toJson(obras));
+                deleteImages();
+                changesMade = false;
                 JOptionPane.showMessageDialog(this, "Saved opus to " + OPUS_FILE);
             } catch (IOException ex) {
                 Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
-    
+
     private void saveExit() {
         Gson gson = new Gson();
         try (FileWriter fw = new FileWriter(new File(OPUS_DIR + OPUS_FILE))) {
-                fw.write(gson.toJson(obras));
-            } catch (IOException ex) {
-                Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            fw.write(gson.toJson(obras));
+            deleteImages();
+        } catch (IOException ex) {
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void deleteImages() {
+        for(String image : imagesToDelete) {
+            File file = new File(image);
+            file.delete();
+        }
     }
 
     private boolean confirmation(String msg) {

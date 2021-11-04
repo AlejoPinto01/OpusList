@@ -17,8 +17,8 @@ import javax.swing.UIManager;
  * @author Alejo
  */
 public class InsertDialog extends javax.swing.JDialog {
-    
-    MainFrame mf = (MainFrame) this.getParent();
+
+    MainFrame mf;
     JFileChooser fileChooser;
     boolean hasImage = false;
     private final String IMAGE_DIR = System.getProperty("user.home") + "\\AppData\\Local\\OpusList\\images\\";
@@ -30,9 +30,10 @@ public class InsertDialog extends javax.swing.JDialog {
     public InsertDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        mf = (MainFrame) this.getParent();
         initiation();
     }
-    
+
     private void initiation() {
         setLocationRelativeTo(null);
         loadDefaultImage();
@@ -60,7 +61,7 @@ public class InsertDialog extends javax.swing.JDialog {
         lblImage = new javax.swing.JLabel();
         btnAdd = new javax.swing.JButton();
         btnClear = new javax.swing.JButton();
-        btnCancel = new javax.swing.JButton();
+        btnDone = new javax.swing.JButton();
         btnSelectImage = new javax.swing.JButton();
         txtImage = new javax.swing.JTextField();
         btnClearImage = new javax.swing.JButton();
@@ -71,13 +72,9 @@ public class InsertDialog extends javax.swing.JDialog {
 
         lblRegisterNum.setText("Register number: ");
 
-        txtRegisterNum.setText("IB00000000");
-
         lblTitle.setText("Title: ");
 
         lblYear.setText("Year: ");
-
-        txtYear.setText("1900");
 
         lblFormat.setText("Format: ");
 
@@ -105,11 +102,11 @@ public class InsertDialog extends javax.swing.JDialog {
             }
         });
 
-        btnCancel.setText("Cancel");
-        btnCancel.setFocusable(false);
-        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+        btnDone.setText("Done");
+        btnDone.setFocusable(false);
+        btnDone.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCancelActionPerformed(evt);
+                btnDoneActionPerformed(evt);
             }
         });
 
@@ -121,6 +118,8 @@ public class InsertDialog extends javax.swing.JDialog {
                 btnSelectImageActionPerformed(evt);
             }
         });
+
+        txtImage.setFocusable(false);
 
         btnClearImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/spdvi/icons/iloveimg-resized/close.png"))); // NOI18N
         btnClearImage.setText("Clear image");
@@ -163,7 +162,7 @@ public class InsertDialog extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnClear)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnCancel)
+                        .addComponent(btnDone)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(btnClearImage, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -197,14 +196,14 @@ public class InsertDialog extends javax.swing.JDialog {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtAuthor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lblAuthor))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 76, Short.MAX_VALUE)
                         .addComponent(btnClearImage))
                     .addComponent(lblImage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAdd)
                     .addComponent(btnClear)
-                    .addComponent(btnCancel)
+                    .addComponent(btnDone)
                     .addComponent(btnSelectImage)
                     .addComponent(txtImage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
@@ -221,9 +220,9 @@ public class InsertDialog extends javax.swing.JDialog {
         clear();
     }//GEN-LAST:event_btnClearActionPerformed
 
-    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+    private void btnDoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDoneActionPerformed
         this.dispose();
-    }//GEN-LAST:event_btnCancelActionPerformed
+    }//GEN-LAST:event_btnDoneActionPerformed
 
     private void btnSelectImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelectImageActionPerformed
         selectImage();
@@ -273,9 +272,9 @@ public class InsertDialog extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
-    private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnClear;
     private javax.swing.JButton btnClearImage;
+    private javax.swing.JButton btnDone;
     private javax.swing.JButton btnSelectImage;
     private javax.swing.JLabel lblAuthor;
     private javax.swing.JLabel lblFormat;
@@ -293,21 +292,34 @@ public class InsertDialog extends javax.swing.JDialog {
 
     private void addOpus() {
         if (!txtRegisterNum.getText().isBlank() || !txtRegisterNum.getText().isEmpty()) {
-            if (hasImage) {
-                imageName = txtRegisterNum.getText() + ".jpg";
-                copyImage();
+            if (!checkIfExists()) {
+                if (hasImage) {
+                    imageName = txtRegisterNum.getText() + ".jpg";
+                    copyImage();
+                } else {
+                    imageName = "noImage";
+                }
+
+                mf.getObras().add(new Opus(txtRegisterNum.getText(), txtTitle.getText(), Integer.parseInt(txtYear.getText()), txtFormat.getText(), txtAuthor.getText(), imageName));
+                JOptionPane.showMessageDialog(null, "Added new opus");
+                mf.changesMade = true;
             } else {
-                imageName = "noImage";
+                errorDialog("Register number must be unique");
             }
-            
-            mf.getObras().add(new Opus(txtRegisterNum.getText(), txtTitle.getText(), Integer.parseInt(txtYear.getText()), txtFormat.getText(), txtAuthor.getText(), imageName));
-            JOptionPane.showMessageDialog(null, "Added new opus");
-            mf.changesMade = true;
         } else {
             errorDialog("Missing register number");
         }
     }
-    
+
+    private boolean checkIfExists() {
+        for (Opus o : mf.getObras()) {
+            if (o.getRegistre().equals(txtRegisterNum.getText())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private void clear() {
         txtAuthor.setText("");
         txtFormat.setText("");
@@ -317,7 +329,7 @@ public class InsertDialog extends javax.swing.JDialog {
         txtYear.setText("");
         loadDefaultImage();
     }
-    
+
     private void selectImage() {
         fileChooser = new JFileChooser();
         int returnOption = fileChooser.showOpenDialog(this);
@@ -327,7 +339,7 @@ public class InsertDialog extends javax.swing.JDialog {
             hasImage = true;
         }
     }
-    
+
     private void loadImage(String path) {
         try {
             BufferedImage bufferedImage = ImageIO.read(new File(path));
@@ -336,7 +348,7 @@ public class InsertDialog extends javax.swing.JDialog {
         } catch (IOException ex) {
         }
     }
-    
+
     private ImageIcon resizeImageIcon(BufferedImage originalImage, int desiredWidth, int desiredHeight) {
         int newHeight = 0;
         int newWidth = 0;
@@ -354,12 +366,12 @@ public class InsertDialog extends javax.swing.JDialog {
         ImageIcon imageIcon = new ImageIcon(outputImage);
         return imageIcon;
     }
-    
+
     private void loadDefaultImage() {
         loadImage("src/spdvi/icons/noimage.png");
         hasImage = false;
     }
-    
+
     private void copyImage() {
         try {
             if (fileChooser.getSelectedFile() != null) {
@@ -375,7 +387,7 @@ public class InsertDialog extends javax.swing.JDialog {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     private void errorDialog(String message) {
         JOptionPane.showMessageDialog(null,
                 message,

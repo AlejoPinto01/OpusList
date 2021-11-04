@@ -19,9 +19,10 @@ import javax.swing.UIManager;
  */
 public class UpdateDialog extends javax.swing.JDialog {
 
-    MainFrame mf = (MainFrame) this.getParent();
+    MainFrame mf;
     JFileChooser fileChooser;
     boolean hasImage = false;
+    boolean modifiedImage = false;
     private final String IMAGE_DIR = System.getProperty("user.home") + "\\AppData\\Local\\OpusList\\images\\";
     private String imageName;
     private int selectedOpus;
@@ -32,12 +33,13 @@ public class UpdateDialog extends javax.swing.JDialog {
     public UpdateDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        mf = (MainFrame) this.getParent();
         setLocationRelativeTo(null);
         loadDefaultImage();
-    }
-
-    public JTextField getTxtRegisterNum() {
-        return txtRegisterNum;
+        if (mf.doubleClicked) {
+            txtRegisterNum.setText(mf.getLstOpusList().getSelectedValue().getRegistre());
+            searchOpus();
+        }
     }
 
     /**
@@ -65,7 +67,7 @@ public class UpdateDialog extends javax.swing.JDialog {
         btnSelectImage = new javax.swing.JButton();
         btnClearImage = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
-        btnCancel = new javax.swing.JButton();
+        btnDone = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Update opus");
@@ -130,11 +132,11 @@ public class UpdateDialog extends javax.swing.JDialog {
             }
         });
 
-        btnCancel.setText("Cancel");
-        btnCancel.setFocusable(false);
-        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+        btnDone.setText("Done");
+        btnDone.setFocusable(false);
+        btnDone.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCancelActionPerformed(evt);
+                btnDoneActionPerformed(evt);
             }
         });
 
@@ -178,7 +180,7 @@ public class UpdateDialog extends javax.swing.JDialog {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(btnUpdate, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnCancel, javax.swing.GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE)))
+                                .addComponent(btnDone, javax.swing.GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblImage, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
@@ -216,7 +218,7 @@ public class UpdateDialog extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnUpdate)
-                            .addComponent(btnCancel)))
+                            .addComponent(btnDone)))
                     .addComponent(lblImage, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
@@ -240,9 +242,9 @@ public class UpdateDialog extends javax.swing.JDialog {
         update();
     }//GEN-LAST:event_btnUpdateActionPerformed
 
-    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+    private void btnDoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDoneActionPerformed
         this.dispose();
-    }//GEN-LAST:event_btnCancelActionPerformed
+    }//GEN-LAST:event_btnDoneActionPerformed
 
     /**
      * @param args the command line arguments
@@ -283,8 +285,8 @@ public class UpdateDialog extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnClearImage;
+    private javax.swing.JButton btnDone;
     private javax.swing.JButton btnSearch;
     private javax.swing.JButton btnSelectImage;
     private javax.swing.JButton btnUpdate;
@@ -314,8 +316,10 @@ public class UpdateDialog extends javax.swing.JDialog {
                 txtYear.setText(String.valueOf(o.getAny()));
                 if (o.getImagePath().equals("noImage")) {
                     loadDefaultImage();
+                    hasImage = false;
                 } else {
                     loadImage(IMAGE_DIR + o.getImagePath());
+                    hasImage = true;
                 }
                 break;
             } else {
@@ -341,7 +345,12 @@ public class UpdateDialog extends javax.swing.JDialog {
             mf.getObras().get(selectedOpus).setFormat(txtFormat.getText());
             if (hasImage) {
                 imageName = mf.getObras().get(selectedOpus).getRegistre() + ".jpg";
-                copyImage();
+                if (modifiedImage) {
+                    copyImage();
+                }
+            } else if (!hasImage && !"noImage".equals(mf.getObras().get(selectedOpus).getImagePath())) {
+                mf.imagesToDelete.add(IMAGE_DIR + mf.getObras().get(selectedOpus).getImagePath());
+                imageName = "noImage";
             } else {
                 imageName = "noImage";
             }
@@ -357,6 +366,7 @@ public class UpdateDialog extends javax.swing.JDialog {
         if (returnOption == JFileChooser.APPROVE_OPTION) {
             loadImage(fileChooser.getSelectedFile().getAbsolutePath());
             hasImage = true;
+            modifiedImage = true;
         }
     }
 
