@@ -254,6 +254,7 @@ public class InsertDialog extends javax.swing.JDialog {
             java.util.logging.Logger.getLogger(InsertDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -292,23 +293,19 @@ public class InsertDialog extends javax.swing.JDialog {
 
     private void addOpus() {
         if (!txtRegisterNum.getText().isBlank() || !txtRegisterNum.getText().isEmpty()) {
-            try {
-                if (!checkIfExists()) {
-                    if (hasImage) {
-                        imageName = txtRegisterNum.getText() + ".jpg";
-                        copyImage();
-                    } else {
-                        imageName = "noImage";
-                    }
-
-                    mf.getObras().add(new Opus(txtRegisterNum.getText(), txtTitle.getText(), Integer.parseInt(txtYear.getText()), txtFormat.getText(), txtAuthor.getText(), imageName));
-                    JOptionPane.showMessageDialog(null, "Added new opus");
-                    mf.changesMade = true;
+            if (!checkIfExists()) {
+                if (hasImage) {
+                    imageName = txtRegisterNum.getText() + ".jpg";
+                    copyImage();
                 } else {
-                    errorDialog("Register number must be unique");
+                    imageName = "noImage";
                 }
-            } catch (NumberFormatException ex) {
-                errorDialog("Year is not a number.");
+
+                mf.getObras().add(new Opus(txtRegisterNum.getText(), txtTitle.getText(), Integer.parseInt(txtYear.getText()), txtFormat.getText(), txtAuthor.getText(), imageName));
+                JOptionPane.showMessageDialog(null, "Added new opus");
+                mf.changesMade = true;
+            } else {
+                errorDialog("Register number must be unique");
             }
         } else {
             errorDialog("Missing register number");
