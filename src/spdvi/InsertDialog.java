@@ -292,19 +292,23 @@ public class InsertDialog extends javax.swing.JDialog {
 
     private void addOpus() {
         if (!txtRegisterNum.getText().isBlank() || !txtRegisterNum.getText().isEmpty()) {
-            if (!checkIfExists()) {
-                if (hasImage) {
-                    imageName = txtRegisterNum.getText() + ".jpg";
-                    copyImage();
-                } else {
-                    imageName = "noImage";
-                }
+            try {
+                if (!checkIfExists()) {
+                    if (hasImage) {
+                        imageName = txtRegisterNum.getText() + ".jpg";
+                        copyImage();
+                    } else {
+                        imageName = "noImage";
+                    }
 
-                mf.getObras().add(new Opus(txtRegisterNum.getText(), txtTitle.getText(), Integer.parseInt(txtYear.getText()), txtFormat.getText(), txtAuthor.getText(), imageName));
-                JOptionPane.showMessageDialog(null, "Added new opus");
-                mf.changesMade = true;
-            } else {
-                errorDialog("Register number must be unique");
+                    mf.getObras().add(new Opus(txtRegisterNum.getText(), txtTitle.getText(), Integer.parseInt(txtYear.getText()), txtFormat.getText(), txtAuthor.getText(), imageName));
+                    JOptionPane.showMessageDialog(null, "Added new opus");
+                    mf.changesMade = true;
+                } else {
+                    errorDialog("Register number must be unique");
+                }
+            } catch (NumberFormatException ex) {
+                errorDialog("Year is not a number.");
             }
         } else {
             errorDialog("Missing register number");

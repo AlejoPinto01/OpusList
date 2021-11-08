@@ -339,23 +339,27 @@ public class UpdateDialog extends javax.swing.JDialog {
 
     private void update() {
         if (confirmation("Are you sure you want to update the selected opus?")) {
-            mf.getObras().get(selectedOpus).setAny(Integer.parseInt(txtYear.getText()));
-            mf.getObras().get(selectedOpus).setAutor(txtAuthor.getText());
-            mf.getObras().get(selectedOpus).setFormat(txtFormat.getText());
-            if (hasImage) {
-                imageName = mf.getObras().get(selectedOpus).getRegistre() + ".jpg";
-                if (modifiedImage) {
-                    copyImage();
+            try {
+                mf.getObras().get(selectedOpus).setAny(Integer.parseInt(txtYear.getText()));
+                mf.getObras().get(selectedOpus).setAutor(txtAuthor.getText());
+                mf.getObras().get(selectedOpus).setFormat(txtFormat.getText());
+                if (hasImage) {
+                    imageName = mf.getObras().get(selectedOpus).getRegistre() + ".jpg";
+                    if (modifiedImage) {
+                        copyImage();
+                    }
+                } else if (!hasImage && !"noImage".equals(mf.getObras().get(selectedOpus).getImagePath())) {
+                    mf.imagesToDelete.add(IMAGE_DIR + mf.getObras().get(selectedOpus).getImagePath());
+                    imageName = "noImage";
+                } else {
+                    imageName = "noImage";
                 }
-            } else if (!hasImage && !"noImage".equals(mf.getObras().get(selectedOpus).getImagePath())) {
-                mf.imagesToDelete.add(IMAGE_DIR + mf.getObras().get(selectedOpus).getImagePath());
-                imageName = "noImage";
-            } else {
-                imageName = "noImage";
+                mf.getObras().get(selectedOpus).setImagePath(imageName);
+                mf.getObras().get(selectedOpus).setTitol(txtTitle.getText());
+                mf.changesMade = true;
+            } catch (NumberFormatException ex) {
+                errorDialog("Year is not a number.");
             }
-            mf.getObras().get(selectedOpus).setImagePath(imageName);
-            mf.getObras().get(selectedOpus).setTitol(txtTitle.getText());
-            mf.changesMade = true;
         }
     }
 
