@@ -1,4 +1,4 @@
-package spdvi;
+package spdvi.opuslist;
 
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -90,7 +90,7 @@ public class UpdateDialog extends javax.swing.JDialog {
 
         lblYear.setText("Year: ");
 
-        btnSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/spdvi/icons/iloveimg-resized/search.png"))); // NOI18N
+        btnSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/iloveimgresized/search.png"))); // NOI18N
         btnSearch.setText("Search");
         btnSearch.setFocusable(false);
         btnSearch.addActionListener(new java.awt.event.ActionListener() {
@@ -101,7 +101,7 @@ public class UpdateDialog extends javax.swing.JDialog {
 
         lblImage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
-        btnSelectImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/spdvi/icons/iloveimg-resized/gallery.png"))); // NOI18N
+        btnSelectImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/iloveimgresized/gallery.png"))); // NOI18N
         btnSelectImage.setText("Select image");
         btnSelectImage.setEnabled(false);
         btnSelectImage.setFocusable(false);
@@ -111,7 +111,7 @@ public class UpdateDialog extends javax.swing.JDialog {
             }
         });
 
-        btnClearImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/spdvi/icons/iloveimg-resized/close.png"))); // NOI18N
+        btnClearImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/iloveimgresized/close.png"))); // NOI18N
         btnClearImage.setText("Clear image");
         btnClearImage.setEnabled(false);
         btnClearImage.setFocusable(false);
@@ -121,7 +121,7 @@ public class UpdateDialog extends javax.swing.JDialog {
             }
         });
 
-        btnUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/spdvi/icons/iloveimg-resized/edit.png"))); // NOI18N
+        btnUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/iloveimgresized/edit.png"))); // NOI18N
         btnUpdate.setText("Update");
         btnUpdate.setEnabled(false);
         btnUpdate.setFocusable(false);

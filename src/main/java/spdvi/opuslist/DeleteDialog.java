@@ -1,4 +1,4 @@
-package spdvi;
+package spdvi.opuslist;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;

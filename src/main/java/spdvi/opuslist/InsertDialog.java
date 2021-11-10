@@ -1,4 +1,4 @@
-package spdvi;
+package spdvi.opuslist;
 
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -85,7 +85,7 @@ public class InsertDialog extends javax.swing.JDialog {
         lblImage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
         btnAdd.setBackground(new java.awt.Color(0, 51, 255));
-        btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/spdvi/icons/iloveimg-resized/plus-button.png"))); // NOI18N
+        btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/iloveimgresized/plus-button.png"))); // NOI18N
         btnAdd.setText("Add");
         btnAdd.setFocusable(false);
         btnAdd.addActionListener(new java.awt.event.ActionListener() {
@@ -110,7 +110,7 @@ public class InsertDialog extends javax.swing.JDialog {
             }
         });
 
-        btnSelectImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/spdvi/icons/iloveimg-resized/gallery.png"))); // NOI18N
+        btnSelectImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/iloveimgresized/gallery.png"))); // NOI18N
         btnSelectImage.setText("Select image");
         btnSelectImage.setFocusable(false);
         btnSelectImage.addActionListener(new java.awt.event.ActionListener() {
@@ -121,7 +121,7 @@ public class InsertDialog extends javax.swing.JDialog {
 
         txtImage.setFocusable(false);
 
-        btnClearImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/spdvi/icons/iloveimg-resized/close.png"))); // NOI18N
+        btnClearImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/iloveimgresized/close.png"))); // NOI18N
         btnClearImage.setText("Clear image");
         btnClearImage.setFocusable(false);
         btnClearImage.addActionListener(new java.awt.event.ActionListener() {
@@ -163,7 +163,7 @@ public class InsertDialog extends javax.swing.JDialog {
                         .addComponent(btnClear)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnDone)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(btnClearImage, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnSelectImage, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
@@ -196,7 +196,7 @@ public class InsertDialog extends javax.swing.JDialog {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtAuthor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lblAuthor))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 76, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 72, Short.MAX_VALUE)
                         .addComponent(btnClearImage))
                     .addComponent(lblImage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)

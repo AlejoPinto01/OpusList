@@ -1,4 +1,4 @@
-package spdvi;
+package spdvi.opuslist;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -87,7 +87,7 @@ public class MainFrame extends javax.swing.JFrame {
         jMenu1.setText("File");
 
         mniSave.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_DOWN_MASK));
-        mniSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/spdvi/icons/iloveimg-resized/diskette.png"))); // NOI18N
+        mniSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/iloveimgresized/diskette.png"))); // NOI18N
         mniSave.setText("Save");
         mniSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -97,12 +97,12 @@ public class MainFrame extends javax.swing.JFrame {
         jMenu1.add(mniSave);
 
         mniSaveAs.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.SHIFT_DOWN_MASK | java.awt.event.InputEvent.CTRL_DOWN_MASK));
-        mniSaveAs.setIcon(new javax.swing.ImageIcon(getClass().getResource("/spdvi/icons/iloveimg-resized/edit.png"))); // NOI18N
+        mniSaveAs.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/iloveimgresized/edit.png"))); // NOI18N
         mniSaveAs.setText("Save as...");
         jMenu1.add(mniSaveAs);
 
         jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_ENTER, java.awt.event.InputEvent.CTRL_DOWN_MASK));
-        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/spdvi/icons/iloveimg-resized/folder.png"))); // NOI18N
+        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/iloveimgresized/folder.png"))); // NOI18N
         jMenuItem1.setText("Open data folder");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -116,7 +116,7 @@ public class MainFrame extends javax.swing.JFrame {
         jMenu2.setText("Edit");
 
         mniCreate.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.SHIFT_DOWN_MASK));
-        mniCreate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/spdvi/icons/iloveimg-resized/plus-button.png"))); // NOI18N
+        mniCreate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/iloveimgresized/plus-button.png"))); // NOI18N
         mniCreate.setText("Insert new opus");
         mniCreate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -126,7 +126,7 @@ public class MainFrame extends javax.swing.JFrame {
         jMenu2.add(mniCreate);
 
         mniUpdate.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.SHIFT_DOWN_MASK));
-        mniUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/spdvi/icons/iloveimg-resized/edit.png"))); // NOI18N
+        mniUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/iloveimgresized/edit.png"))); // NOI18N
         mniUpdate.setText("Update opus");
         mniUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -136,7 +136,7 @@ public class MainFrame extends javax.swing.JFrame {
         jMenu2.add(mniUpdate);
 
         mniDelete.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.SHIFT_DOWN_MASK));
-        mniDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/spdvi/icons/iloveimg-resized/trash-bin.png"))); // NOI18N
+        mniDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/iloveimgresized/trash-bin.png"))); // NOI18N
         mniDelete.setText("Delete opus");
         mniDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

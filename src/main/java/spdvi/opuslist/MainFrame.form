@@ -15,7 +15,7 @@
                   <KeyStroke key="Ctrl+S"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/spdvi/icons/iloveimg-resized/diskette.png"/>
+                  <Image iconType="3" name="/icons/iloveimgresized/diskette.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Save"/>
               </Properties>
@@ -29,7 +29,7 @@
                   <KeyStroke key="Shift+Ctrl+S"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/spdvi/icons/iloveimg-resized/edit.png"/>
+                  <Image iconType="3" name="/icons/iloveimgresized/edit.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Save as..."/>
               </Properties>
@@ -40,7 +40,7 @@
                   <KeyStroke key="Ctrl+ENTER"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/spdvi/icons/iloveimg-resized/folder.png"/>
+                  <Image iconType="3" name="/icons/iloveimgresized/folder.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Open data folder"/>
               </Properties>
@@ -61,7 +61,7 @@
                   <KeyStroke key="Shift+C"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/spdvi/icons/iloveimg-resized/plus-button.png"/>
+                  <Image iconType="3" name="/icons/iloveimgresized/plus-button.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Insert new opus"/>
               </Properties>
@@ -75,7 +75,7 @@
                   <KeyStroke key="Shift+U"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/spdvi/icons/iloveimg-resized/edit.png"/>
+                  <Image iconType="3" name="/icons/iloveimgresized/edit.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Update opus"/>
               </Properties>
@@ -89,7 +89,7 @@
                   <KeyStroke key="Shift+D"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/spdvi/icons/iloveimg-resized/trash-bin.png"/>
+                  <Image iconType="3" name="/icons/iloveimgresized/trash-bin.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Delete opus"/>
               </Properties>
