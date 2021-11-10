@@ -61,7 +61,7 @@
                       <Component id="btnClear" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="btnDone" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="29" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="btnClearImage" alignment="1" max="32767" attributes="0"/>
                           <Component id="btnSelectImage" alignment="1" max="32767" attributes="0"/>
@@ -104,7 +104,7 @@
                           <Component id="txtAuthor" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="lblAuthor" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="76" max="32767" attributes="0"/>
+                      <EmptySpace pref="72" max="32767" attributes="0"/>
                       <Component id="btnClearImage" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Component id="lblImage" max="32767" attributes="0"/>
@@ -175,7 +175,7 @@
           <Color blue="ff" green="33" red="0" type="rgb"/>
         </Property>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/spdvi/icons/iloveimg-resized/plus-button.png"/>
+          <Image iconType="3" name="/icons/iloveimgresized/plus-button.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Add"/>
         <Property name="focusable" type="boolean" value="false"/>
@@ -205,7 +205,7 @@
     <Component class="javax.swing.JButton" name="btnSelectImage">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/spdvi/icons/iloveimg-resized/gallery.png"/>
+          <Image iconType="3" name="/icons/iloveimgresized/gallery.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Select image"/>
         <Property name="focusable" type="boolean" value="false"/>
@@ -222,7 +222,7 @@
     <Component class="javax.swing.JButton" name="btnClearImage">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/spdvi/icons/iloveimg-resized/close.png"/>
+          <Image iconType="3" name="/icons/iloveimgresized/close.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Clear image"/>
         <Property name="focusable" type="boolean" value="false"/>

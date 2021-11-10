@@ -1,4 +1,4 @@
-package spdvi;
+package spdvi.opuslist;
 
 /**
  *
